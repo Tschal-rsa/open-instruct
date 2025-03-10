@@ -866,7 +866,8 @@ def maybe_use_ai2_wandb_entity() -> Optional[str]:
 @retry_on_exception()
 def maybe_use_ai2_hf_entity() -> Optional[str]:
     """Ai2 internal logic: try use the allenai entity if possible. Should not affect external users."""
-    orgs = HfApi().whoami()
+    token = os.environ["HF_TOKEN"]
+    orgs = HfApi(token=token).whoami()
     orgs = [item["name"] for item in orgs["orgs"]]
     if "allenai" in orgs:
         return "allenai"
